@@ -1,39 +1,40 @@
 class Practical
 {
-    public function add($a, $b)
+    public function generateFibonacciSequence($n)
     {
-        if (is_numeric($a) && is_numeric($b)) {
-            return $a + $b;
-        } elseif (is_string($a) && is_string($b)) {
-            return (int)$a + (int)$b;
-        } else {
-            throw new InvalidArgumentException("Invalid input. Both inputs must be numeric values or strings.");
+        if (!is_int($n)) {
+            throw new InvalidArgumentException("Invalid input. Input must be an integer.");
         }
+        
+        $fibonacciSequence = [];
+        $fibonacciSequence[0] = 0;
+        $fibonacciSequence[1] = 1;
+
+        for ($i = 2; $i < $n; $i++) {
+            $fibonacciSequence[$i] = $fibonacciSequence[$i - 1] + $fibonacciSequence[$i - 2];
+        }
+
+        return $fibonacciSequence;
     }
 }
 use PHPUnit\Framework\TestCase;
 
 class PracticalTest extends TestCase
 {
-    public function testAddAcceptsNumericValues()
+    public function testGenerateFibonacciSequenceAcceptsInteger()
     {
         $practical = new Practical();
-        $result = $practical->add(5, 10);
-        $this->assertEquals(15, $result);
+        $n = 5; // Number of Fibonacci numbers to generate
+        $fibonacciSequence = $practical->generateFibonacciSequence($n);
+        
+        $this->assertEquals([0, 1, 1, 2, 3], $fibonacciSequence);
     }
 
-    public function testAddAcceptsStringValues()
-    {
-        $practical = new Practical();
-        $result = $practical->add("5", "10");
-        $this->assertEquals(15, $result);
-    }
-
-    public function testAddRejectsNonNumericValues()
+    public function testGenerateFibonacciSequenceRejectsNonInteger()
     {
         $this->expectException(InvalidArgumentException::class);
         $practical = new Practical();
-        $practical->add("5", "non-numeric");
+        $practical->generateFibonacciSequence("invalid");
     }
 }
 
