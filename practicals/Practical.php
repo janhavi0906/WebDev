@@ -1,39 +1,50 @@
-class Practical
-{
-    public function add($a, $b)
-    {
-        if (is_numeric($a) && is_numeric($b)) {
-            return $a + $b;
-        } elseif (is_string($a) && is_string($b)) {
-            return (int)$a + (int)$b;
-        } else {
-            throw new InvalidArgumentException("Invalid input. Both inputs must be numeric values or strings.");
-        }
+<?php
+/**
+ * Class representing a Practical utility with static functions.
+ */
+class Practical {
+    /**
+     * Calculates the sum of an array of numbers.
+     *
+     * @param array $numbers An array of numbers.
+     *
+     * @return int The sum of the numbers.
+     */
+    public static function calculateSum(array $numbers) {
+        return array_sum($numbers);
+    }
+
+    /**
+     * Checks if a given number is even.
+     *
+     * @param int $number The number to check.
+     *
+     * @return bool True if the number is even, false otherwise.
+     */
+    public static function isEven($number) {
+        return $number % 2 === 0;
+    }
+
+    /**
+     * Converts a string to uppercase.
+     *
+     * @param string $inputString The input string.
+     *
+     * @return string The uppercase version of the input string.
+     */
+    public static function convertToUpperCase($inputString) {
+        return strtoupper($inputString);
     }
 }
-use PHPUnit\Framework\TestCase;
 
-class PracticalTest extends TestCase
-{
-    public function testAddAcceptsNumericValues()
-    {
-        $practical = new Practical();
-        $result = $practical->add(5, 10);
-        $this->assertEquals(15, $result);
-    }
+// Example usage:
+$numbers = [1, 2, 3, 4, 5];
+echo "Sum: " . Practical::calculateSum($numbers) . PHP_EOL;
 
-    public function testAddAcceptsStringValues()
-    {
-        $practical = new Practical();
-        $result = $practical->add("5", "10");
-        $this->assertEquals(15, $result);
-    }
+$evenNumber = 6;
+echo "Is $evenNumber even? " . (Practical::isEven($evenNumber) ? "Yes" : "No") . PHP_EOL;
 
-    public function testAddRejectsNonNumericValues()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $practical = new Practical();
-        $practical->add("5", "non-numeric");
-    }
-}
+$stringToConvert = "hello";
+echo "Uppercase: " . Practical::convertToUpperCase($stringToConvert) . PHP_EOL;
+?>
 
